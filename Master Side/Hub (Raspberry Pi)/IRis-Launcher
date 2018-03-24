@@ -1,0 +1,3 @@
+#!/bin/bash
+
+python "./Operation Files/IRis Main.py" 
