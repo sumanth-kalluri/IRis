@@ -23,6 +23,12 @@ import tkFont
 import time
 
 def startQuiz() :
+    #Get Name Of Question Set
+    qFile = quesIP.get()
+
+    #Assign The Same Name To Responses File
+    aFile = qFile
+    
     #Destroy Existing frames
     timer_Frame.destroy()
     intro_Frame.destroy()
@@ -44,9 +50,7 @@ def startQuiz() :
     optD_Label.place(x=783,y=500)
     
     #Load The Questions From The CSV File
-    print ("\nLoading Questions . . .")
     questions = csvOps.csvRead("./Question Sets/" + qFile + ".csv")
-    print ("Questions Loaded")
     #CSV File Format : Q. No., Question, Option A, Option B, Option C, Option D, Time For Question
 
     #Generate Default Blank Responses List
@@ -62,9 +66,7 @@ def startQuiz() :
         responses[roll][0] = str(roll)
 
     #Initialilze Remotes To Find Active Ones
-    print ("\nInitializing Remotes . . .")
     slavesActive = dc(irOps.init(0,uno))
-    print ("Remotes Initialized")
 
     qa_Frame.pack()
 
@@ -122,6 +124,8 @@ def startQuiz() :
 
     ques_Label.config(text = "Quiz Complete. Responses Recorded")
     qa_Frame.pack()
+
+    GUI.destroy()
     
     
 #Initiate Serial Device
@@ -172,34 +176,13 @@ content_Label = Label(intro_Frame, text="Question Set", font=myFont1, bg="blue")
 content_Label.place(x=350,y=200)
 intro_Frame.pack()
 
+#Create Input Box For Question Set
+qSetName = StringVar()
+quesIp = Entry(intro_Frame,textvariable=qSetName, font=myFont1)
+quesIp.place(x=700,y=205)
+intro_Frame.pack()
+
 qa_Frame = Frame(GUI,width=1920, height=1080, bg="pink")
 qa_Frame.pack()
-
-qFile = raw_input("Please Enter The Name Of The Question Set :\n")
-
-aFile = raw_input("\nPlease Enter The Name Of The Response Set :\n")
-
-#Load The Questions From The CSV File
-print ("\nLoading Questions . . .")
-questions = csvOps.csvRead("./Question Sets/" + qFile + ".csv")
-print ("Questions Loaded")
-#CSV File Format : Q. No., Question, Option A, Option B, Option C, Option D, Time For Question
-
-#Generate Default Blank Responses List
-responses = [["-" for col in range(0,len(questions))] for row in range(0,64)]
-
-#Create The Header Of The Responses List
-responses[0][0] = "Roll Number"
-for qNo in range(1,len(questions)) :
-    responses[0][qNo] = "Q" + str(qNo)
-
-#Add Roll Numbers To The Responses List
-for roll in range(1,64) :
-    responses[roll][0] = str(roll)
-
-#Initialilze Remotes To Find Active Ones
-print ("\nInitializing Remotes . . .")
-slavesActive = dc(irOps.init(0,uno))
-print ("Remotes Initialized")
 
 GUI.mainloop()

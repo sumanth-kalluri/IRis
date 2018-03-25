@@ -1,7 +1,32 @@
-Audience Response Systems are deployed in a wide variety of applications these days. The simplest of such wireless systems use Radio Frequency for communication. The others work on Bluetooth, WiFi or Internet. Some major drawbacks with such architecture are higher power consumption, considerable hardware cost and unavoidable transmission of signals outside the desired area.
+Audience Response Systems are deployed in a wide variety of applications these days. The simplest of such wireless systems use Radio Frequency for communication. The others work on Bluetooth, WiFi or Internet. Some major drawbacks with such architecture are higher power consumption and considerable hardware cost
 
-"IRis" as we call it, has been mindcrafted to tackle these very problems. We conceptualized a modification in the technology already in use to develop a low cost alternative and at the same time enhance the data privacy. At the heart of IRis lies an IR communication architecture instead of RF. Needless to say, this would cut down the cost and power consumption by a large fraction. Also, since IR communication at its core requires a line of sight interaction, the response of audience in case of sensitive matters can be kept under tight wraps within the 4 walls of the conference room. The threat of external eavesdropping which prevails in case of RF communication is eliminated. This makes IRis, an ideal military grade product. Apart from this its applications include but obviously not limited to education, decision support assessment, game shows and mass feedback gathering.
+"IRis" as we call it, has been mindcrafted to tackle these very problems. We conceptualized IRis with the goal of making digital education a reality even in most remote areas of nation. Having said that, cost effectiveness is obviously an important aspect of our product. So we found it imperative to showcase the detailed pricing model. 
+Master :
+	1 Raspberry Pi - Rs. 2600/-
+	1 Arduino Uno - Rs. 400/-
 
-Coming to the technicalities of the project, we propose to build the remotes using Attiny85 microcontrollers. Since multiple IR transmitters will obviously cause a problem of interference, IRis will employ Time Division Multiplexing using Master-Slave protocol to ensure hassle free communication. At the present retail price, each remote is expected to cost around Rs 150/-. If time permits, we would like to integrate a cloud server IRis in order to sync all responses to the cloud time and again.
+Slave :
+	1 ATtiny85 - Rs. 100/-
+	1 IR Receiver (VS1838B) - Rs. 15/-
+	1 IR LED - Rs. 5/-
+	1 Visible LED - Rs. 1/-
+	5 Rsistors - Rs. 3.5/-
+	4 Push Buttons - Rs. 8/-
+	1 AA Battery Holder - Rs. 10/-
+	3cm x 6cm Copper Clad PCB - Rs. 2.5
+	1 SPDT Slide Switch - Rs. 10
+	1 8-pin IC Base - Rs. 4
+
+	Cost of 1 Slave : Rs. 159/-
+
+The present prototype having 3 polling devices costs around Rs 3.5k, a major chunk of it only due to raspberry pi. On scaling the product, a cost increment of around Rs. 200 is expected on the master side.
+
+Coming to the technicalities of the product, we visualized a modification in the technology already in use to develop a low cost alternative. At the heart of IRis lies an IR communication architecture instead of RF. Needless to say, IRis results in lower hardware cost and power consumption than its RF counterparts which are widely in use.
+
+Coming to the technicalities of the project, IRis Slaves are driven by Attiny85 microcontrollers. Since multiple IR transmitters will obviously cause a problem of interference, IRis employs Time Division Multiplexing (TDM) using Master-Slave protocol to ensure hassle free communication. Presently, IRis can offer support to 63 polling devices, each hardcoded with a unique identity number. IRis employs a customized communication protocol that basically involves the transmission of Identity of device followed by the data it wishes to transfer. After each question the master queries each slave and the corresponding slave responds with the user input.
+
+And another thing worth mentioning is that IRis also includes a server upload feature by which student responses can be synced online for further analysis. This feature is in a nascent stage and might face some  limitations due to connectivity issues in remote areas. But since we have already invested in raspberry pi, it's nice to get the most out of it.
+
+Also, since IR communication at its core requires a line of sight interaction, the response of audience in case of sensitive matters can be kept under tight wraps within the 4 walls of the conference room. The threat of external eavesdropping which prevails in case of RF communication is eliminated. This makes IRis, an ideal military grade product as well.
 
 In the future, our major focus shall be on further reducing the cost of production. This would me achieved by wholesale purchase of components and perhaps designing of an embedded system to cater to the specific needs. Another idea worth implementing is increasing the communication efficiency and speed of this architecture by fabricating custom modules intended to serve this very application.
