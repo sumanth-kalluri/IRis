@@ -20,34 +20,94 @@ from time import sleep
 from copy import deepcopy as dc
 from Tkinter import *
 import tkFont
-import time
+
+#Initiate GUI
+GUI = Tk()
+
+#Get Screen Dimensions
+scrHgt = GUI.winfo_screenheight()
+scrWdt = GUI.winfo_screenwidth()
+
+#Configure The GUI
+GUI.configure(bg="SkyBlue2")
+GUI.overrideredirect(True)
+GUI.geometry("{0}x{1}+0+0".format(scrWdt, scrHgt))
+GUI.focus_set()
+
+#Specify Fonts
+title_font = tkFont.Font(family = 'Helvetica', size = 50, weight = 'bold')
+timer_font = tkFont.Font(family = 'Helvetica', size = 40, weight = 'bold')
+other_font = tkFont.Font(family = 'Helvetica', size = 30, weight = 'bold')
+
+startBut_frame = Frame(GUI,width=1920, height=1080, bg="magenta")
+startBut_frame.pack()
+
+#Create Intro Frame
+intro_frame = Frame(GUI,width=1920, height=1080, bg="SkyBlue2")
+intro_frame.pack()
+
+
+#Create Timer
+timer_frame = Frame(GUI,width=1920, height=1080, bg="SkyBlue2")
+timer_frame.pack(side=BOTTOM)
+qTimer = StringVar()
+Label(timer_frame, textvariable=qTimer, font=timer_font, bg='white', fg='blue', relief='raised', bd=3).pack()
+
+#Create Topic Label
+topic_label = Label(intro_frame, text="IRis QUIZ", font=title_font, bg="SkyBlue2")
+topic_label.place(x=960,y=50,anchor="center")
+
+#Create Label For Content On First Page
+content_label = Label(intro_frame, text="TOPIC", font=other_font, bg="SkyBlue2")
+content_label.place(x=500,y=400)
+intro_frame.pack()
+
+qa_frame = Frame(GUI,width=1920, height=1080, bg="SkyBlue2")
+qa_frame.pack()
+
+'''#Create Input Box For Question Set
+select_label = Label(intro_frame, text="INDIA", font=other_font, bg="SkyBlue2")
+select_label.place(x=1000,y=400)
+intro_frame.pack()'''
+
+list1=Listbox(intro_frame,height=3,width=15,font=other_font)
+list1.insert(1,"INDIA")
+list1.insert(2,"ENGLISH")
+list1.insert(3,"MATH")
+list1.place(x=960,y=405)
+intro_frame.pack()
 
 def startQuiz() :
-    #Get Name Of Question Set
-    qFile = quesIP.get()
-
+    selected = list1.curselection()
+    if selected == (0,) :
+        qFile = "India"
+    elif selected == (1,) :
+        qFile = "English"
+    elif selected == (2,) :
+        qFile = "Math"
+    
     #Assign The Same Name To Responses File
     aFile = qFile
     
     #Destroy Existing frames
-    timer_Frame.destroy()
-    intro_Frame.destroy()
+    startBut_frame.destroy()
+    intro_frame.destroy()
 
     #Create New Labels For Questions And Responses
-    ques_Label = Label(qa_Frame, text="", font=myFont, bg="pink")
-    ques_Label.place(x=683,y=50, anchor="center")
+    ques_label = Label(qa_frame, text="", font=other_font, bg="SkyBlue2")
+    ques_label.place(x=960,y=100, anchor="center")
     
-    optA_Label = Label(qa_Frame, text="", font=myFont, bg="pink")
-    optA_Label.place(x=100,y=300)
+    optA_label = Label(qa_frame, text="", font=other_font, bg="SkyBlue2")
+    optA_label.place(x=300,y=400)
     
-    optB_Label = Label(qa_Frame, text="", font=myFont, bg="pink")
-    optB_Label.plaBe(x=783,y=300)
+    optB_label = Label(qa_frame, text="", font=other_font, bg="SkyBlue2")
+    optB_label.place(x=1260,y=400)
 
-    optC_Label = Label(qa_Frame, text="", font=myFont, bg="pink")
-    optC_Label.place(x=100,y=500)
+    optC_label = Label(qa_frame, text="", font=other_font, bg="SkyBlue2")
+    optC_label.place(x=300,y=600)
 
-    optD_Label = Label(qa_Frame, text="", font=myFont, bg="pink")
-    optD_Label.place(x=783,y=500)
+    optD_label = Label(qa_frame, text="", font=other_font, bg="SkyBlue2")
+    optD_label.place(x=1260,y=600)
     
     #Load The Questions From The CSV File
     questions = csvOps.csvRead("./Question Sets/" + qFile + ".csv")
@@ -68,24 +128,24 @@ def startQuiz() :
     #Initialilze Remotes To Find Active Ones
     slavesActive = dc(irOps.init(0,uno))
 
-    qa_Frame.pack()
+    qa_frame.pack()
 
     #Loop Over Questions Extracted From The Question Set
     for question in questions[1:] :
         #Display Questions
-        ques_Label.config(text = question[0] + ". " + question[1] + " ?")
+        ques_label.config(text = question[0] + ". " + question[1] + " ?")
 
         #Reset The Inputs Of All Slaves
         irOps.reset(0,uno)
 
         #Display Options
-        optA_Label.config(text = "A) " + question[2])
-        optA_Label.config(text = "B) " + question[3])
-        optA_Label.config(text = "C) " + question[4])
-        optA_Label.config(text = "D) " + question[5])
+        optA_label.config(text = "A) " + question[2])
+        optB_label.config(text = "B) " + question[3])
+        optC_label.config(text = "C) " + question[4])
+        optD_label.config(text = "D) " + question[5])
 
-        qa_Frame.pack()
-              
+        qa_frame.pack()
+     
         for sec in range(int(question[6]), 0, -1):
             # Format As 2 Digit Integers, Fills With Zero To The Left
             timerFormat = "{:02d}:{:02d}".format(*divmod(sec, 60))
@@ -105,13 +165,13 @@ def startQuiz() :
         sleep(0.5)
 
         #Clear Questions And Options        
-        ques_Label.config(text = "")
-        optA_Label.config(text = "")
-        optA_Label.config(text = "")
-        optA_Label.config(text = "")
-        optA_Label.config(text = "")
+        ques_label.config(text = "")
+        optA_label.config(text = "")
+        optB_label.config(text = "")
+        optC_label.config(text = "")
+        optD_label.config(text = "")
 
-        qa_Frame.pack()
+        qa_frame.pack()
 
         #Request For User Inputs From Slaves
         irOps.enquire(0,int(question[0]),uno,responses)
@@ -122,8 +182,8 @@ def startQuiz() :
     #Response Format : Roll Number, Q1 Response, Q2 Response - - - -, Qn Response
     csvOps.csvWrite('./Responses/' + aFile + '.csv', responses)
 
-    ques_Label.config(text = "Quiz Complete. Responses Recorded")
-    qa_Frame.pack()
+    ques_label.config(text = "Quiz Complete. Responses Recorded")
+    qa_frame.pack()
 
     GUI.destroy()
     
@@ -131,58 +191,10 @@ def startQuiz() :
 #Initiate Serial Device
 uno = serial.Serial("/dev/ttyUSB0", 115200)
 
-#Clear The Console Screen
-os.system('clear')
-
-#Initiate GUI
-GUI = Tk()
-
-#Get Screen Dimensions
-scrHgt = GUI.winfo_screenheight()
-scrWdt = GUI.winfo_screenwidth()
-
-#Configure The GUI
-GUI.overrideredirect(True)
-GUI.geometry("{0}x{1}+0+0".format(scrWdt, scrHgt))
-GUI.focus_set()
-
-#Specify Fonts
-title_Font = tkFont.Font(family = 'Helvetica', size = 36, weight = 'bold')
-timer_Font = tkFont.Font(family = 'Helvetica', size = 40, weight = 'bold')
-other_Font = tkFont.Font(family = 'Helvetica', size = 25, weight = 'bold')
-
 #Create Start Button
-startBut_Frame = Frame(GUI,width=1920, height=1080, bg="yellow")
-startBut_Frame.pack()
-startButton = Button(startBut_Frame, text = "START TEST", font=other_Font, command=startQuiz, bg="yellow").pack()
-startBut_Frame.pack(side = BOTTOM)
+startButton = Button(startBut_frame, text = "START TEST", font=other_font, command=startQuiz, bg="light yellow").pack()
+startBut_frame.pack(side = BOTTOM)
 
-#Create Start Frame
-intro_Frame = Frame(GUI,width=1920, height=1080, bg="blue")
-intro.pack()
-
-#Create Timer
-timer_Frame = Frame(GUI,width=1920, height=1080, bg="pink")
-timer_Frame.pack(side = BOTTOM)
-qTimer =StringVar()
-timer_Label = Label(timer_Frame, textvariable=qTimer, font=timer_Font, bg='white', fg='blue', relief='raised', bd=3).pack()
-
-#Create Topic Label
-topic_Label = Label(intro_Frame, text="IRis QUIZ", font=myFont, bg="blue")
-topic_Label.place(x=500,y=10)
-
-#Create Label For Content On First Page
-content_Label = Label(intro_Frame, text="Question Set", font=myFont1, bg="blue")
-content_Label.place(x=350,y=200)
-intro_Frame.pack()
-
-#Create Input Box For Question Set
-qSetName = StringVar()
-quesIp = Entry(intro_Frame,textvariable=qSetName, font=myFont1)
-quesIp.place(x=700,y=205)
-intro_Frame.pack()
-
-qa_Frame = Frame(GUI,width=1920, height=1080, bg="pink")
-qa_Frame.pack()
+print ("Before Main Loop")
 
 GUI.mainloop()
