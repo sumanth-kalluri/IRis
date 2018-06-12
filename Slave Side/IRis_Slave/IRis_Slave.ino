@@ -19,13 +19,13 @@
 //  Pin 2 (GPIO-3/ANLG-3) : User-Input
 //  Pin 3 (GPIO-4/ANLG-2) : IR Tx
 //  Pin 4                 : GND
-//  Pin 5 (GPIO-0/AREF)   : External Analog Reference (Shorted To +Vcc)
+//  Pin 5 (GPIO-0/AREF)   : GND
 //  Pin 6 (GPIO-1)        : Red LED
 //  Pin 7 (GPIO-2/ANLG-1) : IR Rx
 //  Pin 8                 : +Vcc
 
 #include <tiny_IRremote.h>
-#define UID 37
+#define UID 1
 #define LED_RED 1
 #define OPT_IP A3
 
@@ -96,6 +96,37 @@ uint8_t decodeRaw() {
 
 
 void setup() {
+  ADMUX = ADMUX & 0b00111111; //Set REFS1=0 And REFS0=0 To Set Analog Reference (AREF) To Vcc.
+  
+  /*
+
+  better to create new code. keep this one for old devices
+  Analog user input pulled up.
+  comparator negative = 2.56 or vcc from pin 5
+  adc value left align and read only upper byte. forget two lsbs
+  
+   
+  MCUCR = MCUCR | 0b00100000; //Set The SE (Sleep Enable) Bit in MCUCR
+
+  //Select Sleep Mode As IDLE
+  //Set SM1 Bit, Reset SM0 Bit
+  MCUCR = MCUCR | 0b00010000;
+  MCUCR = MCUCR & 0b11110111;
+
+  //Turn Off USI, Timer0 & ADC
+  PRR = PRR | 0b00000111;
+
+  //Set PCIE (PinChange Interrupt Enable) Bit in GIMSK (General Interrupt Mask Registered)
+  GIMSK = GIMSK | 0b00100000;
+
+  //Enable PinChange Interrupt For GPIO 
+
+
+  sreg interrupt enable
+GIMSK enable pin change (PCIE)
+enable pin change interrupt on selected pins in pcmsk
+  
+   */
   for (uint8_t i = 6; i>=1; i--)
   {
     if ((UID>>(6-i)) & 0b1) {
@@ -111,7 +142,6 @@ void setup() {
   }
   pinMode(LED_RED, OUTPUT);
   pinMode(OPT_IP, INPUT);
-  analogReference(EXTERNAL);
   irrx.enableIRIn(); // Start the receiver
   digitalWrite(LED_RED, HIGH);
   delay(50);
@@ -126,8 +156,8 @@ void loop() {
 
   //When MSB Of usrIp Is 1, None Of The Following Conditions Are Satisfied.
   //So, No Changes Are Made To "irOut".
-  if (usrIp>128 && usrIp<384) {
-    //~256 - Option D  [11]    
+  if (usrIp<128) {
+    //~0 - Option D  [11]    
     irOut[14] = 1000;
     irOut[15] = 500;
     irOut[16] = 1000;
@@ -136,8 +166,8 @@ void loop() {
     delay(50);
     digitalWrite(LED_RED, LOW);
   }
-  else if (usrIp>384 && usrIp<640) {
-    //~512 - Option C [10]
+  else if (usrIp>128 && usrIp<384) {
+    //~256 - Option C [10]
     irOut[14] = 1000;
     irOut[15] = 500;
     irOut[16] = 500;
@@ -146,8 +176,8 @@ void loop() {
     delay(50);
     digitalWrite(LED_RED, LOW);
   }
-  else if (usrIp>640 && usrIp<896) {
-    //~768 - Option B [01]
+  else if (usrIp>384 && usrIp<640) {
+    //~512 - Option B [01]
     irOut[14] = 500;
     irOut[15] = 1000;
     irOut[16] = 1000;
@@ -156,8 +186,8 @@ void loop() {
     delay(50);
     digitalWrite(LED_RED, LOW);
   }
-  else if (usrIp>896 && usrIp<1152) {
-    //~1024 - Option A [00]
+  else if (usrIp>640 && usrIp<896) {
+    //~768 - Option A [00]
     irOut[14] = 500;
     irOut[15] = 1000;
     irOut[16] = 500;
