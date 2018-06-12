@@ -1,0 +1,13 @@
+G04 Gerber job file.*
+%TF.FileFunction,JobInfo*%
+%TF.GenerationSoftware,Autodesk,EAGLE,8.7.0*%
+%TF.CreationDate,2018-06-06T15:16:06Z*%
+%TF.Part,Single*%
+%MOMM*%
+%TJ.B_Owner,Nishad Mandlik <mandliksg@gmail.com>*%
+%TJ.B_ID,IRis - Master PCB Layout*%
+%TJ.B_LayerNum,2*%
+%TJ.B_Thickness,1.570000*%
+%TJ.B_Size_X,55.880000*%
+%TJ.B_Size_Y,82.550000*%
+M02*
