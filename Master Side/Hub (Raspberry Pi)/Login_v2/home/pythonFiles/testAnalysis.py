@@ -1,3 +1,16 @@
+'''
+ * Project          : IRis
+ * Purpose          : Jharkhand Government Project, Ranchi
+ * Module           : Master Hub (RasPi) [Main Module]
+ ---------------------------------------------------------------------------------------
+ * Platform         : Raspberry Pi 3B [running Raspbian 9 (Stretch)]
+ * Serial Device    : Arduino Uno R3 (via USB)
+ ---------------------------------------------------------------------------------------
+ * Author           : Nishad Mandlik
+ * Organization     : WhizMantra Educational Services
+ * 
+'''
+
 import os
 import sys
 from PyQt4.QtCore import *
@@ -422,6 +435,7 @@ if __name__ == '__main__':
     
 
     resBox = QVBoxLayout()
+    resBox.setContentsMargins(30,30,30,30)
 
     resBox.addLayout(optRow1)
     resBox.addLayout(optRow2)
@@ -440,6 +454,7 @@ if __name__ == '__main__':
     resWind.showFullScreen()
 
     resWind.setWindowTitle("Result Generator")
+    resWind.setWindowFlags(Qt.WindowStaysOnTopHint)
     resWind.show()
 
       
