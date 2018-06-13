@@ -217,7 +217,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     testWind = QWidget()
     pal = testWind.palette()
-    pal.setColor(testWind.backgroundRole(), QColor(75, 75, 93, 255))
+    pal.setColor(testWind.backgroundRole(), QColor(20, 20, 20, 255))
     testWind.setPalette(pal)
 
     testBox = QVBoxLayout()
