@@ -339,7 +339,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     resWind = QWidget()
     pal = resWind.palette()
-    pal.setColor(resWind.backgroundRole(), QColor(51, 51, 51, 255))
+    pal.setColor(resWind.backgroundRole(), QColor(20, 20, 20, 255))
     resWind.setPalette(pal)
   
     #Drop Down Menu For Class
