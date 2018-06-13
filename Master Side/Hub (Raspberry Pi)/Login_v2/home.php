@@ -36,7 +36,9 @@ else {
 						<a href="logout.php">	<button type="submit" name="login">
 									Logout
 							</button></a>
-
+              <a href="profile/profile.php">	<button type="submit" name="login">
+                    Add a student
+                </button></a>
 
 				</div>
 			</header>
@@ -45,8 +47,9 @@ else {
 			<section id="banner">
 				<div class="inner">
 					<header>
+<br><br>
 						<h1>Welcome <?= $first_n ?> <?= $last_n ?> </h1>
-
+            <br><br>
 					</header>
 
 					<div class="flex ">
@@ -62,8 +65,7 @@ else {
 							<h3><a href="home/testing_module.php">Testing Module</a></h3>
 
 						</div>
-                                          </div>
-					<div class="flex ">
+
 						<div>
 							<span class="icon fa-list-alt"></span>
 								<h3><a href="home/eva-report/eva-report.php">Evaluation Reports</a></h3>
@@ -78,8 +80,9 @@ else {
 					<footer>
 					<br>
           <br>
-          </br>
-          </br>
+          <br>
+          <br>
+
 					</footer>
 
 			</section>
@@ -90,6 +93,6 @@ else {
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
-      
+
 	</body>
 </html>

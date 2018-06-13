@@ -9,12 +9,11 @@ if (isset($_SESSION['u_id'])) {
   $last_n = $_SESSION['u_last'];
   $Email = $_SESSION['u_email'];
   $isschool = $_SESSION['is_school'];
- 
 }
 else {
 
     $_SESSION['message'] = "You must log in before viewing your profile page!";
-		header("location: /Login_v2/index.php?error=You must log in before viewing your profile page!");
+		header("location: index.php?error=You must log in before viewing your profile page!");
 }
 $topic="";
 $class = 1 ;
@@ -30,7 +29,7 @@ if(isset($_GET["sub_id"])){
 if(isset($_GET["topic"])){
   $topic = $_GET["topic"] ;
 }
-$dir='cl/'.$class.'/'.$sub.'/'.$topic;
+$dir='../class/cl/'.$class.'/'.$sub.'/'.$topic.'/test'.'/';
 $file  = array() ;
 $count = 0 ;
 if(scandir($dir)!=FALSE){  $file = scandir($dir)  ;}
@@ -46,29 +45,29 @@ if (isset($_GET['test'])){
   $row = 1;
   $data_encrypted=array();
   //$data_en;
-  if (($handle = fopen("cl/".$class."/".$sub."/".$topic."/".$test.".csv", "r")) !== FALSE) {
+  if (($handle = fopen("../class/cl/".$class."/".$sub."/".$topic."/test"."/".$test.".csv", "r")) !== FALSE) {
       while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
           $num = count($data);
+          //echo "<p> $num fields in line $row: <br /></p>\n";
           $row++;
           for ($c=0; $c < $num; $c++) {
+
               $data_encrypted[$row-1][$c]=$data[$c];
             //  echo $data_en[$c] . "<br />\n";
           }
       }
       fclose($handle);
   }
-  $pathInPieces = explode('/home/testMod',dirname(__FILE__));
-//echo dirname(__FILE__) ;
- 
-//echo "<h1>".$pathInPieces[0]."</h1>";  
-//if(($fp = fopen("../../currentTest/en_".$class."_".$sub."_".$topic."_".$test.".csv",'w'))!=FALSE){
-if(($fp = fopen("../currentTest/en_".$class."_".$sub."_".$topic."_".$test.".csv",'w'))!=FALSE){
+  $pathInPieces = explode('\home\testMod',dirname(__FILE__));
+  if(($fp = fopen($pathInPieces[0]."/currentTest/en_".$class."_".$sub."_".$topic."_".$test.".csv",'w'))!=FALSE){
+
   foreach ($data_encrypted as $fields) {
-	
+    // code...
     fputcsv($fp,$fields);
   }
 fclose($fp);
 }
+header("location: loader.php");
 }
 ?>
 <!DOCTYPE HTML>
@@ -93,12 +92,13 @@ fclose($fp);
 			<header id="header">
 				<div class="inner">
 					<a href="/Login_v2/home.php" class="logo"><strong><font size="10">N E E V</font></strong> </a>
-					
+					<nav id="nav">
 						<a href="/Login_v2/logout.php">	<button type="submit" name="login">
 									Logout
 							</button></a>
-					
-					
+              
+					</nav>
+					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 				</div>
 			</header>
 
@@ -112,6 +112,7 @@ fclose($fp);
 
   </div>
 
+<br>
 			</section>
 
 		<!-- Scripts <a href="#" class="button"></a> -->

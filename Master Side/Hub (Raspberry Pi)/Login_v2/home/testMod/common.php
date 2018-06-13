@@ -29,7 +29,7 @@ if(isset($_GET["sub_id"])){
 else {
   echo "Invalid Id Access for sub id" ;
 }
-  $dir    = 'cl/'.$class.'/'.$sub;
+  $dir    = '../class/cl/'.$class.'/'.$sub;
   $file  = array() ;
   if(scandir($dir)!=FALSE){ $file = scandir($dir,1)  ; }
   $count = count($file) ;
@@ -44,6 +44,9 @@ else {
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="stylesheet" href="/Login_v2/assets/css/main.css" />
     <style>
+      #crash{
+        height:100vw;
+      }
       tr{
         font-size: 1.5em;
       }
@@ -97,7 +100,12 @@ else {
     var cnt="<?php echo $count ;?>";
     var topics =<?php echo json_encode($file);?>;
     var dir = "<?php echo $dir ;?>";
-
+    if(!Array.isArray(topics)||!(topics.length-2)){
+      $("div").empty();
+      $("#banner").append("<div id='crash'></div>");
+      alert("Directory Empty");
+      window.history.back();
+    }
     $('input').on('click',function(){
       for(var i=0;i<cnt;i++){
         $("#"+i).attr('href',"rTest.php?cls="+cls+"&sub_id="+sub+"&topic="+topics[i]);

@@ -3,12 +3,17 @@ session_start();
 // Check if user is logged in using the session variable
 if (isset($_SESSION['u_id'])==FALSE) {
 
-    $_SESSION['message'] = "You must log in before viewing your profile page!";
-		header("location: index.php?error=You must log in before viewing your profile page!");
+  		header("location: /login_v2/index.php?error=notLoggedIn");
+      exit();
 }
-$testID = $_POST['testID']  ;
-$sub = $_POST['sub']  ;
-$path = "testReport/".$sub."/".$testID.".csv" ;
+else{
+
+$testID = $_POST['testID'] ;
+$sub = $_POST['sub'];
+$class = $_POST['class'];
+$topic = $_POST['topic'];
+
+$path = "testReport/".$class."/".$sub."/".$topic."/".$testID.".csv" ;
 
 if(file_exists($path)==FALSE ){
   header("Location: neev_clinic.php?code=error");
@@ -55,6 +60,7 @@ $er3=$top_error_code[2];
     }
     fclose($handle);
 }
+}
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -85,7 +91,7 @@ $er3=$top_error_code[2];
 					</header>
 					<div class="flex ">
 						<div>
-                <video width="240" height="180" controls>
+                <video width="240" height="180" controls controlsList="nodownload">
                   <source class="er1_m" src="" type="video/mp4">
                   <source class="er1_o" src="" type="video/ogg">
                     Your browser does not support the video tag.
@@ -94,7 +100,7 @@ $er3=$top_error_code[2];
                 <h3>Lesson 1</h3>
             </div>
           <div>
-              <video width="240" height="180" controls>
+              <video width="240" height="180" controls controlsList="nodownload">
                 <source class="er2_m" src="" type="video/mp4">
                 <source class="er2_o" src="" type="video/ogg">
                   Your browser does not support the video tag.
@@ -103,7 +109,7 @@ $er3=$top_error_code[2];
               <h3>Lesson 2</h3>
           </div>
         <div>
-            <video width="240" height="180" controls>
+            <video width="240" height="180" controls controlsList="nodownload">
               <source class="er3_m" src="" type="video/mp4">
               <source class="er3_o" src="" type="video/ogg">
                 Your browser does not support the video tag.
@@ -123,9 +129,12 @@ $er3=$top_error_code[2];
 			<script src="/Login_v2/assets/js/main.js"></script>
 	</body>
   <script>
-  var er1 = "<?php echo $er1 ?>";
-  var er2 = "<?php echo $er2 ?>";
-  var er3 = "<?php echo $er3 ?>";
+  var cls = "<?php echo $class ?>";
+  var sub = "<?php echo $sub ?>" ;
+  var topic = "<?php echo $topic ?>";
+  var er1 = "class/cl/"+cls+"/"+sub+"/"+topic+"/error/"+"<?php echo $er1 ?>";
+  var er2 = "class/cl/"+cls+"/"+sub+"/"+topic+"/error/"+"<?php echo $er2 ?>";
+  var er3 = "class/cl/"+cls+"/"+sub+"/"+topic+"/error/"+"<?php echo $er3 ?>";
 $(document).ready(function(){
     $(".er1_m").attr("src",er1+".mp4");
     $(".er1_o").attr("src",er1+".ogg");

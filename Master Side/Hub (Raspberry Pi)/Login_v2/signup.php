@@ -115,16 +115,15 @@ function validateForm() {
             <span class="input100">
                 School Or Teacher?
               </span>
-							<div class="container">
-                <label>
-                  <span>&emsp;&ensp;</span>
-  							<input type="radio" checked="checked" name="school" value="1">School
-  							<span class="checkmark"></span></label>
-                <span>&emsp;&ensp;</span>
-						    <label>
-  							<input type="radio" name="school" value="2">Teacher
-  							<span class="checkmark"></span></label>
-							</div>
+              <label>
+                <span> &ensp; </span>
+                 <input type="radio" checked="checked" name="school" value="1">&nbsp;School
+   							</label>
+                 <span> &emsp; </span>
+ 						    <label>
+   							<input type="radio" name="school" value="2">&nbsp;Teacher
+   							</label>
+
           </div>
 
 

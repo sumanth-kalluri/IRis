@@ -8,7 +8,7 @@ if (isset($_SESSION['u_id'])) {
 }
 else {
     $_SESSION['message'] = "You must log in before viewing your profile page!";
-		header("location: index.php?error=You must log in before viewing your profile page!");
+		header("location: /login_v2/index.php?error=You must log in before viewing your profile page!");
 }
 
 
@@ -20,48 +20,43 @@ else {
 		<title>N E E V</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<link rel="stylesheet" href="/Login_v2/assets/css/main.css" />
-    <link rel='stylesheet' href='stylesheets/style.css' />
-		<link rel='stylesheet' href='stylesheets/bootstrap.min.css' />
-		<link rel='stylesheet' href='stylesheets/font-awesome.min.css' />
 
-		<!-- Load c3.css -->
-		<link href="stylesheets/c3.css" rel="stylesheet" type="text/css">
+    <!-- Load c3.css -->
+    <link href="stylesheets/c3.css" rel="stylesheet" type="text/css">
+    <link rel='stylesheet' href='stylesheets/style.css' />
+    <link rel='stylesheet' href='stylesheets/bootstrap.min.css' />
+    <link rel='stylesheet' href='stylesheets/font-awesome.min.css' />
+
+
+		<link rel="stylesheet" href="/Login_v2/assets/css/main.css" />
 
 		<!-- Load d3.js and c3.js -->
 		<script src="javascripts/d3.v3.min.js" charset="utf-8"></script>
 		<script src="javascripts/c3.min.js"></script>
 
+
 		<!-- Load papaparse.js -->
 		<script src="javascripts/papaparse.min.js"></script>
-    <style>
-      .click:hover{
-        cursor:pointer;
-      }
-      tr{
-        text-decoration-color: '#6cc091';
-      }
-    </style>
   </head>
 	<body>
 
     <!-- Header -->
-			<header id="header">
-				<div id="head" class="inner">
-					<a href="/Login_v2/home.php" class="logo"><strong><font size="8">N E E V</font></strong> </a>
-
-						<a href="/Login_v2/logout.php">	<button type="submit" name="login">
-									Logout
-							</button></a>
-
-				</div>
-			</header>
+    <header id="header">
+      <div class="inner">
+        <a href="/Login_v2/home.php" class="logo"><strong><font size="10">N E E V</font></strong> </a>
+        <nav id="nav">
+          <a href="/Login_v2/logout.php">	<button type="submit" name="login">
+                Logout
+            </button></a>
+        </nav>
+      </div>
+    </header>
 
 		<!-- Banner -->
 			<section id="banner">
 				<div class="inner">
           <div class="flex">
-            <div class="4u 12u$(small)">
+            <div class="3u 12u$(small)">
             <form name="neevClinic"  >
         <select name="class" >
           <option value="">-CLASS-</option>
@@ -73,38 +68,45 @@ else {
           <option value="6">VI</option>
           <option value="7">VII</option>
           <option value="8">VIII</option>
-        </select><br><br>
-        <input type="text" name="sid" onkeypress="return !(event.charCode < 48 || event.charCode >= 58)" placeholder="Student Roll No."><br><br>
-        <input type="text" onkeypress="return !(event.charCode < 48 || event.charCode >= 58)" name="testID" placeholder="Test Number"><br>
-  <br><h3>Subject:</h3>
+        </select><br>
+        <select name="sub" >
+          <option value="">-SUBJECT-</option>
+          <option value="math">Mathematics</option>
+          <option value="english">English</option>
+        </select>
+        <br>
+        <select id="topics" name="topic" onclick="isValid();">
+          <option value="">-TOPICS-</option>
 
-                <input type="radio" id="math" value="math" name="sub">
-                <label for="math">Mathematics</label>
-                <input type="radio" id="english" value="english" name="sub">
-                <label for="english">English</label>
-<br><br>
+        </select>
+        <br>
+        <input type="text" name="sid" onkeypress="return !(event.charCode < 48 || event.charCode >= 58)" placeholder="Student Roll No."><br>
+
+        <input type="text" onkeypress="return !(event.charCode < 48 || event.charCode >= 58)" name="testID" placeholder="Test Number"><br>
 
   <button type="button" onclick="val();"> Submit </button>
   </form>
 </div>
 
-<div id="chart" class="8u 12u$(medium)">
+
+<div id="chart" class="8u 12u$(large)">
 
 </div>
 
 </div>
+<hr>
+<br>
 
-<br>
-<br>
 
     <div id="xyzheader" class="table-wrapper">
-                        <table class="alt">
 
-                        </table>
 
                       </div>
+                      <table id="tab" class="alt">
+
+                      </table>
 </div>
-        </section>
+</section>
 
 
 
@@ -114,31 +116,65 @@ else {
 			<script src="/Login_v2/assets/js/util.js"></script>
 			<script src="/Login_v2/assets/js/main.js"></script>
       <script>
+      var cls="";
+      var subj="";
+      function isValid(){
 
+          var cl=document.forms["neevClinic"]["class"].value;
+          var sub=document.forms["neevClinic"]["sub"].value;
+          if(cls!=cl  || subj!=sub){
+          var path="reports/"+cl+"/"+sub+"/";
+
+          var el=$("#topics");
+          el.empty();
+          appendOptions(path);
+          cls=cl;
+          subj=sub;
+        }
+    }
+        function appendOptions(path){
+          var res=[];
+
+          $.post('script.php', { p: path }, function(result) {
+            result=result.slice(5,result.length-1);
+            res=result.split(" ");
+            var em="";
+            $("#topics").append("<option value="+em+">-TOPICS-</option>");
+            for(var i=0;i<res.length;i++){
+              //add+="<option value="+res[i]+">"+res[i]+"</option>";
+              $("#topics").append("<option value="+res[i]+">"+res[i]+"</option>");
+            }
+            });
+        }
       function val(){
         var cl=document.forms["neevClinic"]["class"].value;
-        var sid=document.forms["neevClinic"]["sid"].value;
         var sub=document.forms["neevClinic"]["sub"].value;
+        var top=document.forms["neevClinic"]["topics"].value;
+        var sid=document.forms["neevClinic"]["sid"].value;
         var test=document.forms["neevClinic"]["testID"].value;
         if(cl==""){
           alert("Please select a class");
         }else{
-          if(sid==""){
-            alert("Please enter a valid Student ID");
+          if(sub==""){
+            alert("Please choose a valid Subject");
           }else{
-            if(test==""){
-              alert("Please enter a valid Test");
+            if(top==""){
+              alert("Please choose a valid Topic");
             }else{
-              if(sub==""){
-                alert("Please choose a subject");
-        }else{
-          var path = "reports/"+cl+"/"+sub+"/"+test+".csv";
-          var e_path="reports/"+cl+"/"+sub+"/map_"+test+".csv";
-          parseData(createGraph,path,e_path,sid);
+              if(sid==""){
+                alert("Please enter a valid student ID");
+              }else{
+                if(test==""){
+                  alert("Please enter a valid test number");
+                }else{
+                  var path = "reports/"+cl+"/"+sub+"/"+top+"/"+test+".csv";
+                  var e_path="reports/"+cl+"/"+sub+"/"+top+"/map_"+test+".csv";
+                  parseData(createGraph,path,e_path,sid);
+                }
+              }
+            }
+          }
         }
-      }
-      }
-    }
       }
         /*
          * Parse the data and create a graph with the data.
@@ -169,11 +205,15 @@ else {
             }
           }
           console.log(names);
+          var el=$("#tab");
+          el.empty();
+          el=$("#xyzheader");
+          el.empty();
           var tb="";
 
           for(var i=0;i<names.length;i++){
 
-              tb+="<tr><td><h2>"+errors[i]+"</h2></td><td><h2>"+names[i]+"</h2></td></tr>";
+              tb+="<tr><td><h3>"+errors[i]+"</h3></td><td><h3>"+names[i]+"</h3></td></tr>";
           }
             $('#xyzheader').prepend("<h1> Error Map</h1>");
             $("table").append(tb);
@@ -288,7 +328,6 @@ else {
         	        position: 'bottom'
         	    }
         	});
-
 
           $('#chart').append("<br><h3>Correct Answers: "+correct+", Attempted: "+attempted+", Total Number of questions: "+total+"</h3><br>");
 

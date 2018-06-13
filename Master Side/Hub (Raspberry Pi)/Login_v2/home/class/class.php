@@ -54,7 +54,7 @@ if(isset($_GET["cls"])){
 				<div class="inner">
 					<header>
 						<h1>Subjects</h1>
-
+            <br>
 					</header>
 
 					<div class="flex ">

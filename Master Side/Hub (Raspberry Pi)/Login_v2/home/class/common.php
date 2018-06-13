@@ -47,6 +47,9 @@ else {
       tr{
         font-size: 1.5em;
       }
+      #crash{
+        height:100vw;
+      }
     </style>
 	</head>
 	<body>
@@ -71,7 +74,7 @@ else {
 					 <h1>Topics</h1>
 
 					</header>
-
+          <br>
             <input type="radio" onclick="check()" id="vid" value="vid" name="choice" checked>
             <label for="vid">VIDEO</label>
             <input type="radio" onclick="check()" id="ws" value="ws" name="choice">
@@ -84,7 +87,7 @@ else {
           										</table>
           									</div>
 
-
+                            <br><br>
 
 			</section>
 
@@ -103,7 +106,12 @@ else {
     var cnt="<?php echo $count ;?>";
     var topics =<?php echo json_encode($file);?>;
     var dir = "<?php echo $dir ;?>";
-
+    if(!Array.isArray(topics)||!(topics.length-2)){
+      $("div").empty();
+      $("#banner").append("<div id='crash'></div>");
+      alert("Directory Empty");
+      window.history.back();
+    }
     $('input').on('click',function(){
       var isVid=$('#vid').prop('checked');
       if(isVid===true)

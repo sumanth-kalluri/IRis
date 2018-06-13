@@ -114,7 +114,8 @@ $count=$count - 2;
               if((i*3+j)<cnt){
                 var lk=list[i*3+j];
                 var link="cl/"+cls+"/"+sub+"/"+topic+"/"+choice+"/"+lk.slice(0,-4);
-                dv+="<div><video width='240' height='180' controls><source src='"+link+".mp4' type='video/mp4'><source src='"+link+".ogg' type='video/ogg'></video><br>";
+                var noDown="nodownload";
+                dv+="<div><video width='240' height='180' controls controlsList="+noDown+"><source src='"+link+".mp4' type='video/mp4'><source src='"+link+".ogg' type='video/ogg'></video><br>";
                 dv+="<h3>Lesson "+(i*3+j+1)+"</h3></div>";
               }
             }
@@ -126,7 +127,7 @@ $count=$count - 2;
           var tb="";
           for(var i=0;i<cnt;i++){
               var link=list[i];
-              tb+="<tr><td><a href='/Login_v2/web/viewer.php?file=/Login_v2/home/Class/cl/"+cls+"/"+sub+"/"+topic+"/"+choice+"/"+link+"'>"+"Worksheet "+(i+1)+"</a></td></tr>";
+              tb+="<tr><td><a href='/Login_v2/web/viewer.php?file=/Login_v2/home/class/cl/"+cls+"/"+sub+"/"+topic+"/"+choice+"/"+link+"'>"+"Worksheet "+(i+1)+"</a></td></tr>";
           }
 
           $("table").append(tb);
