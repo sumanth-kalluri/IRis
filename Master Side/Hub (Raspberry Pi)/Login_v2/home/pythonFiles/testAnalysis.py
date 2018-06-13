@@ -249,14 +249,15 @@ def studChange(newStud) :
         clearLay(errorBars.layout())
 
         for i in range(0,len(errorsList)) :
-            errorLab = NLabel(str(errorsList[i][0]), 18)
+            errorLab = NLabel(str(errorsList[i][0]), 21)
             errorBars.layout().addWidget(errorLab.lab,i,0)
 
-            errorNum = NLabel("\t" + str(errorsList[i][1]),18)
+            errorNum = NLabel("\t" + str(errorsList[i][1]),26)
             errorBars.layout().addWidget(errorNum.lab,i,1)
 
             errorBar = QProgressBar()
-            errorBar.setFixedHeight(30)
+            errorBar.setStyleSheet("QProgressBar {background-color: #000000; border: 0px} QProgressBar::chunk {background-color: #3386FF;}")
+            errorBar.setFixedHeight(40)
             errorBar.setTextVisible(False)
             errorBar.setMaximum(wrong)
             errorBar.setValue(int(errorsList[i][1]))
@@ -289,6 +290,9 @@ def resetStats():
 class NLabel() :
     def __init__(self, labText, fontSize) :
         self.lab = QLabel()
+        pal = self.lab.palette()
+        pal.setColor(resWind.foregroundRole(), QColor(255,255,255,255))
+        self.lab.setPalette(pal)
         font = self.lab.font()
         font.setPointSize(fontSize)
         self.lab.setFont(font)
@@ -297,8 +301,9 @@ class NLabel() :
 
 #Class For Command Button
 class NCommandButton() :
-    def __init__(self, buttonText, clickFunc) :
+    def __init__(self, buttonText, clickFunc, backColor) :
         self.button = QPushButton()
+        self.button.setStyleSheet("QPushButton {background-color: " + backColor + " ; color: #000000; border: 5px solid black; border-radius: 15px;}")
         font = self.button.font()
         font.setPointSize(32)
         self.button.setFont(font)
@@ -310,6 +315,7 @@ class NCommandButton() :
 class NDropDown() :
     def __init__(self, entries, changeFunc) :
         self.dropdown = QComboBox()
+        #self.dropdown.setStyleSheet("QComboBox {background-color: linear-gradient(red, yellow);}")
         self.dropdown.addItems(entries)
         font = self.dropdown.font()
         font.setPointSize(32)
@@ -360,10 +366,12 @@ if __name__ == '__main__':
     correctNum = NLabel("0/0\t", 24)
 
     attemptedBar = QProgressBar()
+    attemptedBar.setStyleSheet("QProgressBar {background-color: #FFFFFF; border: 0px} QProgressBar::chunk {background-color:#FF5733}")
     attemptedBar.setFixedHeight(40)
     attemptedBar.setTextVisible(False)
     attemptedBar.setValue(0)
     correctBar = QProgressBar()
+    correctBar.setStyleSheet("QProgressBar {background-color: #FFFFFF; border: 0px} QProgressBar::chunk {background-color:#FF5733}")
     correctBar.setFixedHeight(40)
     correctBar.setTextVisible(False)
     correctBar.setValue(0)
@@ -371,9 +379,9 @@ if __name__ == '__main__':
     errorHeadLab = NLabel("Analysis Of Errors", 24)
 
     #Buttons For Minimize, Reset And Close
-    minimBut = NCommandButton("Minimize", minimize)
-    resetBut = NCommandButton("Reset", reset)
-    closeBut = NCommandButton("Close", close)
+    minimBut = NCommandButton("Minimize", minimize, "#FFFFFF")
+    resetBut = NCommandButton("Reset", reset, "#00FF00")
+    closeBut = NCommandButton("Close", close, "#FF0000")
 
     #Form Layout   
     optRow1 = QHBoxLayout()
@@ -408,6 +416,7 @@ if __name__ == '__main__':
     #Error Bar Graph Layout
     errorBars = QScrollArea()
     errorBars.setWidgetResizable(True)
+    errorBars.setStyleSheet("QScrollArea {background-color: #000000}")
 
     errorBox = QGridLayout()
     errorBars.setLayout(errorBox)
