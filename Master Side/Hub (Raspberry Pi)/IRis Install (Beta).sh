@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #Install LAMP Server (Apache 2, PHP, MySQL)
 sudo apt update
@@ -26,6 +26,10 @@ sudo chmod 777 -R /var/www/html/Login_v2
 #Ask User For Password Of MySQL & PHPMyAdmin
 read -sp 'Please Enter The Password Used For MySQL: ' userPass
 
-#Change The Password In The
+#Move To Next Line
+echo
+
+#Change The Password In The DB Config File
+sed -i "4s/.*/define('db_password', '$userPass');/" /var/www/html/Login_v2/database/db_connect.php
 
 #Edit .bashrc and rc.local files
