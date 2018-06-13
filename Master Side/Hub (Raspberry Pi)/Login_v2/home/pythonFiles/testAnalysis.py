@@ -211,8 +211,8 @@ def studChange(newStud) :
             else :
                 i=i+1
 
-        attemptedNum.setText(str(attempted) + "/" + str(total) + "\t")
-        correctNum.setText(str(correct) + "/" + str(total) + "\t")
+        attemptedNum.lab.setText(str(attempted) + "/" + str(total) + "\t")
+        correctNum.lab.setText(str(correct) + "/" + str(total) + "\t")
 
         attemptedBar.setMaximum(total)
         attemptedBar.setValue(attempted)
@@ -249,19 +249,11 @@ def studChange(newStud) :
         clearLay(errorBars.layout())
 
         for i in range(0,len(errorsList)) :
-            errorLab = QLabel()
-            font = errorLab.font()
-            font.setPointSize(18)
-            errorLab.setFont(font)
-            errorLab.setText(str(errorsList[i][0]))
-            errorBars.layout().addWidget(errorLab,i,0)
+            errorLab = NLabel(str(errorsList[i][0]), 18)
+            errorBars.layout().addWidget(errorLab.lab,i,0)
 
-            errorNum = QLabel()
-            font = errorNum.font()
-            font.setPointSize(18)
-            errorNum.setFont(font)
-            errorNum.setText("\t" + str(errorsList[i][1]))
-            errorBars.layout().addWidget(errorNum,i,1)
+            errorNum = NLabel("\t" + str(errorsList[i][1]),18)
+            errorBars.layout().addWidget(errorNum.lab,i,1)
 
             errorBar = QProgressBar()
             errorBar.setFixedHeight(30)
@@ -286,12 +278,22 @@ def resetStats():
     clearLay(errorBars.layout())
 
     #Clear The Scores
-    attemptedNum.setText("0/0\t")
-    correctNum.setText("0/0\t")
+    attemptedNum.lab.setText("0/0\t")
+    correctNum.lab.setText("0/0\t")
 
     #Reset The Score Bars
     attemptedBar.setValue(0)
     correctBar.setValue(0)
+
+#Class For Label
+class NLabel() :
+    def __init__(self, labText, fontSize) :
+        self.lab = QLabel()
+        font = self.lab.font()
+        font.setPointSize(fontSize)
+        self.lab.setFont(font)
+        self.lab.setText(labText)
+        
 
 #Class For Command Button
 class NCommandButton() :
@@ -330,6 +332,9 @@ if __name__ == '__main__':
 
     app = QApplication(sys.argv)
     resWind = QWidget()
+    pal = resWind.palette()
+    pal.setColor(resWind.backgroundRole(), QColor(51, 51, 51, 255))
+    resWind.setPalette(pal)
   
     #Drop Down Menu For Class
     classSelect = NDropDown(["Select Class"] + os.listdir(classDir), classChange)
@@ -346,29 +351,13 @@ if __name__ == '__main__':
     #Drop Down Menu For Student Roll Numbers
     studSelect = NDropDown(["Select Student ID"], studChange)
 
-    attemptedLab = QLabel()
-    font = attemptedLab.font()
-    font.setPointSize(24)
-    attemptedLab.setFont(font)
-    attemptedLab.setText("Attempted\t")
+    attemptedLab = NLabel("Attempted\t", 24)
     
-    correctLab = QLabel()
-    font = correctLab.font()
-    font.setPointSize(24)
-    correctLab.setFont(font)
-    correctLab.setText("Correct\t")
+    correctLab = NLabel("Correct\t", 24)
 
-    attemptedNum = QLabel()
-    font = attemptedNum.font()
-    font.setPointSize(24)
-    attemptedNum.setFont(font)
-    attemptedNum.setText("0/0\t")
+    attemptedNum = NLabel("0/0\t", 24)
 
-    correctNum = QLabel()
-    font = correctNum.font()
-    font.setPointSize(24)
-    correctNum.setFont(font)
-    correctNum.setText("0/0\t")
+    correctNum = NLabel("0/0\t", 24)
 
     attemptedBar = QProgressBar()
     attemptedBar.setFixedHeight(40)
@@ -379,11 +368,7 @@ if __name__ == '__main__':
     correctBar.setTextVisible(False)
     correctBar.setValue(0)
 
-    errorLab = QLabel()
-    font = errorLab.font()
-    font.setPointSize(24)
-    errorLab.setFont(font)
-    errorLab.setText("Analysis Of Errors")
+    errorHeadLab = NLabel("Analysis Of Errors", 24)
 
     #Buttons For Minimize, Reset And Close
     minimBut = NCommandButton("Minimize", minimize)
@@ -405,12 +390,12 @@ if __name__ == '__main__':
     scoreBox = QHBoxLayout()
     
     scoreLabs = QVBoxLayout()
-    scoreLabs.addWidget(attemptedLab)
-    scoreLabs.addWidget(correctLab)
+    scoreLabs.addWidget(attemptedLab.lab)
+    scoreLabs.addWidget(correctLab.lab)
 
     scoreNums = QVBoxLayout()
-    scoreNums.addWidget(attemptedNum)
-    scoreNums.addWidget(correctNum)
+    scoreNums.addWidget(attemptedNum.lab)
+    scoreNums.addWidget(correctNum.lab)
 
     scoreBars = QVBoxLayout()
     scoreBars.addWidget(attemptedBar)
@@ -444,7 +429,7 @@ if __name__ == '__main__':
     resBox.addLayout(scoreBox)
     resBox.addWidget(QLabel()) #Dummy Space
 
-    resBox.addWidget(errorLab)
+    resBox.addWidget(errorHeadLab.lab)
     resBox.addWidget(errorBars)
 
     resBox.addLayout(buttons)
