@@ -38,8 +38,6 @@ echo
 #Change The Password In The DB Config File
 sed -i "4s/.*/define('db_password', '$userPass');/" /var/www/html/Login_v2/database/db_connect.php
 
-#Configure MySQL from phpmyadmin or terminal(preferably)
-
 #Edit .bashrc and rc.local files
 
 #/home/$(whoami)/.bashrc
@@ -97,5 +95,10 @@ else
 	echo "Command 2 Added To /etc/rc.local"	
 fi
 
+#Configure MySQL Server
 
+#Create Empty DataBase
+mysql -u root -p$userPass -e "CREATE DATABASE whiz;"
 
+#Import Into The Empty Database
+mysql -u root -p$userPass whiz < /var/www/html/Login_v2/homw/pythonFiles/whiz.sql
