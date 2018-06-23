@@ -140,7 +140,7 @@ if __name__ == '__main__':
     uno = serial.Serial("/dev/ttyUSB0", 115200)
     sleep(1)
     
-    testDir = '/var/www/html/Login_v2/home/currentTest/'
+    testDir = '/var/www/html/Login_v2/currentTest/'
     testList = os.listdir(testDir)
 
     #Remove .csv Extension From File

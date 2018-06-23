@@ -25,7 +25,7 @@ if 'running' in runStat :
 os.system("touch running")
 
 #Directory To Monitor The Test File 
-testDir = '/var/www/html/Login_v2/home/currentTest/'
+testDir = '/var/www/html/Login_v2/currentTest/'
 
 
 

@@ -102,3 +102,7 @@ mysql -u root -p$userPass -e "CREATE DATABASE whiz;"
 
 #Import Into The Empty Database
 mysql -u root -p$userPass whiz < /var/www/html/Login_v2/homw/pythonFiles/whiz.sql
+
+
+#Give Ownership Of Folder To www-data User and www-data Group
+sudo chown -R www-data:www-data /var/www/html/Login_v2
