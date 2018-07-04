@@ -81,12 +81,13 @@ def enquire(ID,qNo,serDev,answers,qs):
         if nextChar == '/':
             opt = serDev.read(1)
 
-            if opt>=65 and opt<=68 :
+            if ord(opt)>=65 and ord(opt)<=68 :
                 #Store The Response In The Cell Corresponding To The Appropriate Questiion And Roll Number
                 answers[int(roll)][qNo*2 - 1] = opt
 
                 #Store The Error Code in The Cell Beside
-                answers[int(roll)][qNo*2] = qs[qNo][2*ord(opt) - 128]
+                print qs[qNo]
+                answers[int(roll)][qNo*2] = qs[qNo][2*ord(opt) - 127]
             
             #Reset The Roll Number Variable To Accept New Value
             roll = ''

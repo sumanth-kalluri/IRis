@@ -25,7 +25,7 @@
 //  Pin 8                 : +Vcc
 
 #include <tiny_IRremote.h>
-#define UID 1
+#define UID 21
 #define LED_RED 1
 #define OPT_IP A3
 

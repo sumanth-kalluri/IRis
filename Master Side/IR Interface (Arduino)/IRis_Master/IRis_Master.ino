@@ -1,4 +1,4 @@
-/*
+ /*
  * Project          : IRis
  * Purpose          : HackFest 2018 - The Annual 36 Hour Hackathon At IIT (ISM) Dhanbad
  * Module           : Master IR Interface (Arduino)
@@ -14,7 +14,7 @@
 */
 
 //Digital Pin 3   : IR Tx
-//Digital Pin 11  : IR Rx
+//Digital Pin 2  : IR Rx
 
 #include <IRremote.h>
 #define UID 0
@@ -54,7 +54,10 @@ struct irCmd {
 //Function To Convert IR Signal To Byte Data
 uint8_t decodeRaw() {
   //Signal Is Present In Ticks Of 50uS.
-
+  /*for(int i = 0; i < 20; i++)
+  {
+    Serial.println(irIn.rawbuf[i]);
+  }*/
   //First HIGH Pulse : 5000 (3500 to 6500)
   if (irIn.rawbuf[1]<70 && irIn.rawbuf[1]>130) {
     return 1;
@@ -73,12 +76,12 @@ uint8_t decodeRaw() {
   //First 6 bits (Address)
   for (uint8_t i=3; i<15; i+=2) {
     irResponse.address = irResponse.address<<1;
-    if (irIn.rawbuf[i]>15) {
-      //HIGH Pulse : 1000 (>750)
+    if (irIn.rawbuf[i]>irIn.rawbuf[i+1]) {
+      //HIGH Pulse
       irResponse.address = irResponse.address | 0b00000001;
     }
-    else if (irIn.rawbuf[i]<15) {
-      //LOW Pulse : 500 (<750)
+    else if (irIn.rawbuf[i]<=irIn.rawbuf[i+1]) {
+      //LOW Pulse
       irResponse.address = irResponse.address & 0b11111110;
     }
     else {
@@ -89,12 +92,14 @@ uint8_t decodeRaw() {
   //Last 2 bits (Instruction)
   for (uint8_t i=15; i<19; i+=2) {      
     irResponse.option = irResponse.option<<1;
-    if (irIn.rawbuf[i]>17) {
-      //HIGH Pulse : 1000 (>850)
+    if (irIn.rawbuf[i]>irIn.rawbuf[i+1]) {
+      //HIGH Pulse :
+      //Serial.println("HIGH");
       irResponse.option = irResponse.option | 0b00000001;
     }
-    else if (irIn.rawbuf[i]<13) {
-      //LOW Pulse : 500 (<650)
+    else if (irIn.rawbuf[i]<=irIn.rawbuf[i+1]) {
+      //LOW Pulse : 
+      //Serial.println("LOW");
       irResponse.option = irResponse.option & 0b11111110;
     }
     else {
@@ -261,10 +266,10 @@ uint8_t askSlaves(uint8_t ID) {
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("Start");
+  //Serial.println("Start");
   encodeRaw(UID,2);
   irrx.enableIRIn();
-  Serial.println("Enabled\n");
+  //Serial.println("Enabled\n");
 }
 
 void loop() {

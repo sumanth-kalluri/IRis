@@ -47,6 +47,9 @@ def dispNextQues() :
 
     #If Questions Are Complete, Exit
     if quesNum == len(questions):
+        #Close The Serial Port
+        uno.close()
+
         #Create File And Record Responses
         #Response Format : Roll Number, Q1 Response, Q1 Response Error Code, Q2 Response, Q2 Response Error Code - - - -, Qn Response, Qn Response Error Code
         csvOps.csvWrite(respFile, responses)
@@ -102,6 +105,7 @@ def startInit() :
         #Initialilze Remotes To Find Active Ones
         global slavesActive
         slavesActive = dc(irOps.init(0,uno))
+        print slavesActive
 
         quesLab.label.setText("All The Best")
         
@@ -137,9 +141,10 @@ def quesTimeShow() :
 
 
 if __name__ == '__main__':
-    uno = serial.Serial("/dev/ttyUSB0", 115200)
-    sleep(1)
     
+    uno = serial.Serial("/dev/ttyUSB0", baudrate=115200)
+    sleep(1)
+
     testDir = '/var/www/html/Login_v2/currentTest/'
     testList = os.listdir(testDir)
 
