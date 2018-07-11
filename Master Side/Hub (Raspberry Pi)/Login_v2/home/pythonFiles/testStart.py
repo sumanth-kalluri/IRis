@@ -283,6 +283,3 @@ if __name__ == '__main__':
     initTimer.start()
 
     sys.exit(app.exec_())
-    
-
-    
