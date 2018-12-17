@@ -9,7 +9,7 @@
  * Library          : tiny_IRremote (For IR Communication on ATtiny Series)
  * IDE              : Arduino IDE 1.8.4 On Ubuntu 16.04 LTS
  ---------------------------------------------------------------------------------------
- * Author           : Nishad Mandlik
+ * Author           : Sumanth
  * Organization     : RoboISM - The Robotics Club Of IIT (ISM) Dhanbad
  * 
  */
