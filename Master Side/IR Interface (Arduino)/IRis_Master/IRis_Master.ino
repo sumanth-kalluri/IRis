@@ -8,7 +8,7 @@
  * Library          : IRremote (For IR Communication with Arduino Series) [https://github.com/z3t0/Arduino-IRremote]
  * IDE              : Arduino IDE 1.8.4 On Ubuntu 16.04 LTS
  ---------------------------------------------------------------------------------------
- * Author           : Nishad Mandlik
+ * Author           : Nishad Mandlik, Sumanth, Ruthvik
  * Organization     : RoboISM - The Robotics Club Of IIT (ISM) Dhanbad
  * 
 */
